@@ -10,7 +10,9 @@
 -
 ###组建化你的视图(View)
 ```
-视图是前端开发最直观的展示，涉及到页面方方面面，聊天，列表，图片，网页等,我们自定义聊天页面，定义商品展示页面，定义图片展示页面，瀑布展示页面，后来才发现原来我们做的页面都是一次性工作，版本升级，页面改版，之前所有的工作都没了。
+视图是前端开发最直观的展示，涉及到页面方方面面，聊天，列表，图片，网页等,我们自定义聊天页面，
+定义商品展示页面，定义图片展示页面，瀑布展示页面，后来才发现原来我们做的页面都是一次性工作，
+版本升级，页面改版，之前所有的工作都是枉然了。
 ```
 ####那么如何去组件化设计你的前端页面呢？
 首先来看两个有代表性的前端页面，最近双11，小编截图了天猫双11首页设计图(由于不便于区分模块，小编把页面调成了黑白)。简单分析下。
@@ -123,5 +125,113 @@
 
 ```
 根据获取到不同的消息Model去返回不同的cell.
+
+###让数据来做视图掌控者
+数据是一个APP的灵魂，既然是灵魂就应该充当起灵魂的责任，就要负责起整个前端页面的整个饮食起居，不然前端怎么知道我收到的数据是普通文本消息而不是一个视频消息呢。所以视图要和数据绑定。还是上代码
+####数据和视图绑定
+```
+@interface ChatMessageCellModel : HRBaseTableViewCellModel
+
+@property(nonatomic,strong) HRMessageModel  *messageModel;
+
+@property(nonatomic,copy) void(^tapImageHandle)(HRMessageModel *model,UIImageView *imageView);
+
+@property(nonatomic,copy) void(^tapUserImageHandle)(HRMessageModel *model);
+
+@end
+
+
+@interface HRChatMessageCell : HRBaseTableViewCell
+
+@property(nonatomic,strong) ChatMessageCellModel  *model;
+
++(CGFloat)cellHeightWithTableView:(UITableView *)tableView cellModel:(ChatMessageCellModel *)cellModel;
+
+
+@end
+
+```
+
+ChatMessageCellModel和HRChatMessageCell进行绑定，
+
+模型 | 数据 
+---- | ---
+ChatMessageCellModel | HRChatMessageCell
+NormalTextCellModel | NormalTextCell
+AudioCellModel | AudioCell
+...|...
+这样当进入到一个聊天页面时候，从网络或者本地load了50条聊天记录，转化为对应的模型时，在 ```cellForRowAtIndexPath ```里针对对应的model展示响应的cell视图
+
+####数据控制前端视图展示
+类似天猫首页的活动页面通过运营的控制可以实现灵活的热更新，在不用APP上架更新的情况下，动态更新首页视图。类似如下。
+
+
+#####非双11首页展示数据
+```
+{
+	data:{
+		//首页banner图
+		banner:{
+			...
+		},
+		//首页菜单
+		menu:{
+			...
+		},
+		//推荐店铺
+		recommendShop:{
+			...
+		},
+		//推荐商品
+		recommendCommodity:{
+			...
+		},
+		//热门店铺
+		hotShop:{
+			...
+		},
+
+	},
+	code:1
+}
+```
+
+双11首页展示数据
+```
+{
+	data:{
+		// 双11抢红包模块
+		shuang11RedWallet:{
+			...
+		},
+		//双11 热店
+		shuang11HotShop:{
+			...
+		},
+		//双11 热购商品
+		shuang11HotCommodity:{
+			...
+		},
+		//双11精选
+		shuang11JingXuan:{
+			...
+		},
+		//双11帮你挑
+		shuang11HelpUChoose:{
+			...
+		},
+		//双11 个人推荐
+		shuang11Recommend:{
+			...
+		},
+		//双11 tabbar icon图标
+		shuang11Icon:{
+
+		}
+	},
+	code:1
+}
+```
+
 
 
