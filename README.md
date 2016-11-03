@@ -126,6 +126,30 @@
 ```
 根据获取到不同的消息Model去返回不同的cell.
 
+####Web组件化开发
+例如天猫双11的图用web组建化开发可以展示为
+```
+* 首页Banner图
+* banner 图
+* 多个可以水滚动的 banner
+* 为你推荐 (其实也是一个banner图)
+* 底部tabbar
+```
+如何来做这样一个网站呢。基于模块开发。每个模块独立成一个主体，以后在添加或者删除响应的模块的时候，相对会简单很多。部分代码可以展示如下
+```
+{{extentd("sloution://base/")}}
+
+{{#block("bidy")}}
+
+{{use ("muli://headbanner/",$data.modules[1])}}
+{{use ("muli://banner/",$data.modules[2])}}
+{{use ("muli://multi-banner/",$data.modules[3])}}
+{{use ("muli://recommendbanner/",$data.modules[1])}}
+{{use ("muli://floor/",$data.modules[4])}}
+{{use ("muli://bottomTabbar/",$data.modules[5])}}
+
+```
+
 ###让数据来做视图掌控者
 数据是一个APP的灵魂，既然是灵魂就应该充当起灵魂的责任，就要负责起整个前端页面的整个饮食起居，不然前端怎么知道我收到的数据是普通文本消息而不是一个视频消息呢。所以视图要和数据绑定。还是上代码
 ####数据和视图绑定
