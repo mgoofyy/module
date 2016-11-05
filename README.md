@@ -32,7 +32,7 @@
 ####同时组建化开发视图利于功能的维护和拓展
 这个说辞比较适合的方案是QQ的聊天的方案：可以先看下QQ聊天界面视图
 
-![GitHub set up](http://www.goofyy.com/blog/wp-content/uploads/2016/11/qq_scr.jpeg)
+![GitHub set up](https://github.com/mgoofyy/module/blob/master/img/qq_scr.jpeg)
 
 ```
 * 模块1 系统消息view (系统时间)
