@@ -175,7 +175,7 @@
 
 ChatMessageCellModel和HRChatMessageCell进行绑定，
 
-模型 | 数据 
+模型 | 视图
 ---- | ---
 ChatMessageCellModel | HRChatMessageCell
 NormalTextCellModel | NormalTextCell
